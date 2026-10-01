@@ -76,13 +76,47 @@
       cursor: default;
     }
 
-    /* Radar Background Grid Pattern */
+    /* Radar Background Grid Pattern with Smooth Infinite Perspective Drift */
     .tactical-grid-bg {
       background-image: 
-        radial-gradient(circle at 50% 50%, rgba(255, 0, 60, 0.08) 0%, transparent 60%),
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-      background-size: 100% 100%, 45px 45px, 45px 45px;
+        radial-gradient(circle at 50% 30%, rgba(255, 0, 60, 0.14) 0%, transparent 65%),
+        radial-gradient(circle at 80% 80%, rgba(157, 78, 221, 0.12) 0%, transparent 50%),
+        linear-gradient(to right, rgba(255, 0, 60, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
+      animation: tacticalGridShift 35s linear infinite;
+    }
+
+    @keyframes tacticalGridShift {
+      0% {
+        background-position: 0 0, 0 0, 0 0, 0 0;
+      }
+      100% {
+        background-position: 0 0, 0 0, 500px 500px, 0 500px;
+      }
+    }
+
+    /* Ambient Pulsing Radar Rings */
+    .radar-pulse-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px dashed rgba(255, 0, 60, 0.25);
+      pointer-events: none;
+      animation: radarRingGrow 12s infinite linear;
+    }
+
+    @keyframes radarRingGrow {
+      0% {
+        transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+        opacity: 0.8;
+      }
+      70% {
+        opacity: 0.3;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1.6) rotate(180deg);
+        opacity: 0;
+      }
     }
 
     /* Beveled Cyber Cut-outs */
@@ -164,8 +198,13 @@
 
 <body class="tactical-grid-bg relative min-h-screen selection:bg-ghostRed selection:text-white">
 
-  <!-- Interactive Dynamic Background Canvas -->
-  <canvas id="ambientCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+  <!-- Interactive Dynamic Background Canvas (Particles, Radar Sweep, Link Webs) -->
+  <canvas id="ambientCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-70"></canvas>
+
+  <!-- Ambient Glowing Nebulas in Background -->
+  <div class="fixed top-1/4 -left-48 w-96 h-96 bg-ghostRed/15 rounded-full blur-[120px] pointer-events-none animate-pulse z-0"></div>
+  <div class="fixed bottom-1/4 -right-48 w-[30rem] h-[30rem] bg-apexPurple/15 rounded-full blur-[140px] pointer-events-none z-0"></div>
+  <div class="fixed top-2/3 left-1/3 w-80 h-80 bg-cyberCyan/10 rounded-full blur-[110px] pointer-events-none z-0"></div>
 
   <!-- CRT Monitor Overlay -->
   <div class="fixed inset-0 crt-screen z-50 pointer-events-none opacity-45"></div>
@@ -1302,41 +1341,239 @@
       });
     }
 
-    // Ambient Starfield / Cyber Grid on Canvas
+    // Advanced Military Cyber Tactical Engine (Radar Sweep, Particles, Mouse Reticle, Floating Telemetry)
     const canvas = document.getElementById('ambientCanvas');
     if (canvas) {
       const ctx = canvas.getContext('2d');
-      let stars = [];
+      let particles = [];
+      let hudGlyphs = [];
+      let mouse = { x: -1000, y: -1000, active: false };
+      let radarAngle = 0;
+
+      const glyphWords = [
+        "TF-141 // ACTIVE",
+        "PUNJAB NODE 31.14°N",
+        "KD: 2.25 // VERIFIED",
+        "10,000 XP // LEGENDARY",
+        "CALLSIGN // GHOST",
+        "ENCRYPTION: 256-BIT",
+        "TARGET: ACQUIRED",
+        "DEFCON 1 PROTOCOL"
+      ];
+
       function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        stars = [];
-        for (let i = 0; i < 70; i++) {
-          stars.push({
+        initParticles();
+      }
+
+      function initParticles() {
+        particles = [];
+        const count = Math.min(85, Math.floor((canvas.width * canvas.height) / 16000));
+        
+        for (let i = 0; i < count; i++) {
+          particles.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            size: Math.random() * 2 + 0.5,
-            speed: Math.random() * 0.4 + 0.1,
-            alpha: Math.random() * 0.8 + 0.2
+            vx: (Math.random() - 0.5) * 0.7,
+            vy: (Math.random() - 0.5) * 0.7 - 0.25, // upward ember drift
+            size: Math.random() * 2.2 + 0.8,
+            color: Math.random() > 0.65 ? '#00f0ff' : (Math.random() > 0.4 ? '#ff003c' : '#9d4edd'),
+            alpha: Math.random() * 0.6 + 0.2,
+            pulseSpeed: Math.random() * 0.03 + 0.01,
+            pulseDir: 1
+          });
+        }
+
+        hudGlyphs = [];
+        for (let j = 0; j < 5; j++) {
+          hudGlyphs.push({
+            text: glyphWords[Math.floor(Math.random() * glyphWords.length)],
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vy: -0.35 - Math.random() * 0.25,
+            alpha: Math.random() * 0.35 + 0.15
           });
         }
       }
+
       window.addEventListener('resize', resizeCanvas);
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        mouse.active = true;
+      });
+      window.addEventListener('mouseleave', () => {
+        mouse.active = false;
+        mouse.x = -1000;
+        mouse.y = -1000;
+      });
+
       resizeCanvas();
 
-      function drawStars() {
+      function drawTacticalBackground() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        stars.forEach(s => {
-          s.y += s.speed;
-          if (s.y > canvas.height) s.y = 0;
-          ctx.fillStyle = `rgba(255, 0, 60, ${s.alpha})`;
+
+        // 1. Draw Rotating Radar Sweep from Top Right / Center Node
+        const radarCenterX = canvas.width > 900 ? canvas.width * 0.82 : canvas.width * 0.5;
+        const radarCenterY = canvas.height > 900 ? canvas.height * 0.25 : canvas.height * 0.35;
+        const radarRadius = Math.min(canvas.width, canvas.height) * 0.48;
+
+        radarAngle += 0.012;
+        if (radarAngle >= Math.PI * 2) radarAngle = 0;
+
+        // Concentric Tactical Circles
+        ctx.strokeStyle = "rgba(255, 0, 60, 0.08)";
+        ctx.lineWidth = 1;
+        for (let r = 70; r < radarRadius; r += 70) {
           ctx.beginPath();
-          ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-          ctx.fill();
+          ctx.arc(radarCenterX, radarCenterY, r, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        // Crosshairs on Radar Center
+        ctx.strokeStyle = "rgba(0, 240, 255, 0.12)";
+        ctx.beginPath();
+        ctx.moveTo(radarCenterX - radarRadius, radarCenterY);
+        ctx.lineTo(radarCenterX + radarRadius, radarCenterY);
+        ctx.moveTo(radarCenterX, radarCenterY - radarRadius);
+        ctx.lineTo(radarCenterX, radarCenterY + radarRadius);
+        ctx.stroke();
+
+        // Glowing Radar Sweep Cone
+        const sweepGrad = ctx.createRadialGradient(
+          radarCenterX, radarCenterY, 0,
+          radarCenterX, radarCenterY, radarRadius
+        );
+        sweepGrad.addColorStop(0, "rgba(255, 0, 60, 0.18)");
+        sweepGrad.addColorStop(1, "rgba(255, 0, 60, 0)");
+
+        ctx.save();
+        ctx.fillStyle = sweepGrad;
+        ctx.beginPath();
+        ctx.moveTo(radarCenterX, radarCenterY);
+        ctx.arc(radarCenterX, radarCenterY, radarRadius, radarAngle - 0.35, radarAngle);
+        ctx.closePath();
+        ctx.fill();
+
+        // Leading Sweep Beam Line
+        ctx.strokeStyle = "rgba(255, 0, 60, 0.45)";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(radarCenterX, radarCenterY);
+        ctx.lineTo(
+          radarCenterX + Math.cos(radarAngle) * radarRadius,
+          radarCenterY + Math.sin(radarAngle) * radarRadius
+        );
+        ctx.stroke();
+        ctx.restore();
+
+        // 2. Render Floating HUD Telemetry Glyphs
+        ctx.font = '10px "JetBrains Mono", monospace';
+        hudGlyphs.forEach(g => {
+          g.y += g.vy;
+          if (g.y < -20) {
+            g.y = canvas.height + 20;
+            g.x = Math.random() * canvas.width;
+            g.text = glyphWords[Math.floor(Math.random() * glyphWords.length)];
+          }
+          ctx.fillStyle = `rgba(0, 240, 255, ${g.alpha})`;
+          ctx.fillText(`[+] ${g.text}`, g.x, g.y);
         });
-        requestAnimationFrame(drawStars);
+
+        // 3. Update & Draw Particles & Constellation Links
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          // Pulse Alpha
+          p.alpha += p.pulseSpeed * p.pulseDir;
+          if (p.alpha > 0.8 || p.alpha < 0.2) p.pulseDir *= -1;
+
+          // Screen Wrap
+          if (p.x < 0) p.x = canvas.width;
+          if (p.x > canvas.width) p.x = 0;
+          if (p.y < 0) p.y = canvas.height;
+          if (p.y > canvas.height) p.y = 0;
+
+          // Mouse Repulsion & Tether
+          if (mouse.active) {
+            const dx = mouse.x - p.x;
+            const dy = mouse.y - p.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 140) {
+              const force = (140 - dist) / 140;
+              p.x -= (dx / dist) * force * 4.5;
+              p.y -= (dy / dist) * force * 4.5;
+
+              // Draw tactical targeting line to cursor
+              ctx.strokeStyle = `rgba(0, 240, 255, ${force * 0.4})`;
+              ctx.lineWidth = 0.8;
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.stroke();
+            }
+          }
+
+          // Draw Particle Node
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.alpha;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.globalAlpha = 1;
+
+          // Tactical Constellation Grid Lines between close particles
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+            if (dist < 90) {
+              const lineAlpha = (1 - dist / 90) * 0.25;
+              ctx.strokeStyle = p.color === '#ff003c' ? `rgba(255, 0, 60, ${lineAlpha})` : `rgba(0, 240, 255, ${lineAlpha})`;
+              ctx.lineWidth = 0.6;
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // 4. Interactive Crosshair Following Cursor
+        if (mouse.active) {
+          ctx.save();
+          ctx.strokeStyle = "rgba(0, 240, 255, 0.4)";
+          ctx.lineWidth = 1;
+          ctx.setLineDash([4, 4]);
+
+          // Rotating outer ring
+          ctx.beginPath();
+          ctx.arc(mouse.x, mouse.y, 22, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Center Reticle
+          ctx.strokeStyle = "rgba(255, 0, 60, 0.7)";
+          ctx.beginPath();
+          ctx.moveTo(mouse.x - 7, mouse.y);
+          ctx.lineTo(mouse.x + 7, mouse.y);
+          ctx.moveTo(mouse.x, mouse.y - 7);
+          ctx.lineTo(mouse.x, mouse.y + 7);
+          ctx.stroke();
+
+          // Coordinate label beside cursor
+          ctx.font = '9px "JetBrains Mono", monospace';
+          ctx.fillStyle = "rgba(0, 240, 255, 0.75)";
+          ctx.fillText(`LOC [${Math.floor(mouse.x)}, ${Math.floor(mouse.y)}]`, mouse.x + 14, mouse.y - 12);
+          ctx.restore();
+        }
+
+        requestAnimationFrame(drawTacticalBackground);
       }
-      drawStars();
+
+      drawTacticalBackground();
     }
 
     // Live Indian Standard Time (Punjab)
