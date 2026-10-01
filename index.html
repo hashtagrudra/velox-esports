@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VELOX // TASK FORCE 141 APEX TERMINAL</title>
+  <title>VELOX // TASK FORCE 141 &bull; APEX ESPORTS TERMINAL</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Google Fonts: Orbitron, Chakra Petch, JetBrains Mono, Syne -->
+  <!-- Fonts: Orbitron, Chakra Petch, JetBrains Mono, Syne -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=JetBrains+Mono:wght@400;600;800&family=Orbitron:wght@600;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -53,16 +53,16 @@
   </script>
 
   <style>
-    /* Sleek Custom Scrollbar */
+    /* Custom Tactical Scrollbar */
     ::-webkit-scrollbar {
-      width: 7px;
+      width: 6px;
     }
     ::-webkit-scrollbar-track {
       background: #040207;
     }
     ::-webkit-scrollbar-thumb {
       background: linear-gradient(to bottom, #ff003c, #9d4edd);
-      border-radius: 4px;
+      border-radius: 3px;
     }
     ::-webkit-scrollbar-thumb:hover {
       background: #00f0ff;
@@ -76,16 +76,16 @@
       cursor: default;
     }
 
-    /* Interactive Background Radar Grid */
+    /* Radar Background Grid Pattern */
     .tactical-grid-bg {
       background-image: 
         radial-gradient(circle at 50% 50%, rgba(255, 0, 60, 0.08) 0%, transparent 60%),
         linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-      background-size: 100% 100%, 50px 50px, 50px 50px;
+      background-size: 100% 100%, 45px 45px, 45px 45px;
     }
 
-    /* Cyber Beveled / Cut-Corner Panels */
+    /* Beveled Cyber Cut-outs */
     .bevel-box {
       clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
     }
@@ -93,7 +93,7 @@
       clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
     }
 
-    /* Authentic Glitch Header */
+    /* Glitch Animation */
     .glitch-header {
       position: relative;
       display: inline-block;
@@ -111,12 +111,12 @@
     .glitch-header:hover::before {
       left: -2px;
       text-shadow: 2px 0 #ff003c;
-      animation: glitch-left 1.5s infinite linear alternate-reverse;
+      animation: glitch-left 1.4s infinite linear alternate-reverse;
     }
     .glitch-header:hover::after {
       left: 2px;
       text-shadow: -2px 0 #00f0ff;
-      animation: glitch-right 2s infinite linear alternate-reverse;
+      animation: glitch-right 1.8s infinite linear alternate-reverse;
     }
 
     @keyframes glitch-left {
@@ -132,30 +132,30 @@
       100% { clip: rect(10px, 9999px, 30px, 0); }
     }
 
-    /* Glowing Pulsing Borders */
+    /* Pulsing Tactical Glow */
     @keyframes pulseGlow {
       0%, 100% {
-        box-shadow: 0 0 15px rgba(255, 0, 60, 0.35), inset 0 0 10px rgba(255, 0, 60, 0.15);
+        box-shadow: 0 0 20px rgba(255, 0, 60, 0.4), inset 0 0 10px rgba(255, 0, 60, 0.15);
       }
       50% {
-        box-shadow: 0 0 25px rgba(0, 240, 255, 0.4), inset 0 0 15px rgba(0, 240, 255, 0.2);
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.45), inset 0 0 15px rgba(0, 240, 255, 0.2);
       }
     }
     .border-glow-active {
       animation: pulseGlow 4s infinite ease-in-out;
     }
 
-    /* 3D Tilt Card Container */
+    /* 3D Tilt Card */
     .tilt-card {
       transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.2s ease;
       transform-style: preserve-3d;
       perspective: 1000px;
     }
 
-    /* CRT Vignette Scanline Effect */
+    /* Scanline Overlay */
     .crt-screen {
-      background: linear-gradient(rgba(18, 16, 26, 0) 50%, rgba(0, 0, 0, 0.4) 50%),
-                  radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.85) 100%);
+      background: linear-gradient(rgba(18, 16, 26, 0) 50%, rgba(0, 0, 0, 0.35) 50%),
+                  radial-gradient(ellipse at center, transparent 65%, rgba(0,0,0,0.85) 100%);
       background-size: 100% 3px, 100% 100%;
       pointer-events: none;
     }
@@ -164,17 +164,18 @@
 
 <body class="tactical-grid-bg relative min-h-screen selection:bg-ghostRed selection:text-white">
 
-  <!-- Interactive Dynamic Canvas Background (Cyber Particles & Stars) -->
+  <!-- Interactive Dynamic Background Canvas -->
   <canvas id="ambientCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
   <!-- CRT Monitor Overlay -->
-  <div class="fixed inset-0 crt-screen z-50 pointer-events-none opacity-50"></div>
+  <div class="fixed inset-0 crt-screen z-50 pointer-events-none opacity-45"></div>
 
+  <!-- Top Tactical Satellite Feed & Status Ticker -->
   <div class="bg-black/90 border-b border-ghostRed/40 text-[11px] font-mono py-1.5 px-4 sticky top-0 z-40 backdrop-blur-md flex flex-wrap justify-between items-center text-slate-300">
     <div class="flex items-center gap-3">
       <span class="inline-flex items-center gap-1.5 text-ghostRed font-extrabold uppercase tracking-wider">
         <span class="w-2 h-2 rounded-full bg-ghostRed animate-ping"></span>
-        DEFCON 1 // GHOST PROTOCOL
+        DEFCON 1 // TASK FORCE 141
       </span>
       <span class="hidden md:inline text-slate-600">|</span>
       <span class="text-cyberCyan hidden sm:inline">
@@ -193,16 +194,17 @@
         <span id="audioLabel">AUDIO ON</span>
       </button>
 
-      <a href="https://discordapp.com/users/1443238519974924288" target="_blank" rel="noopener noreferrer" class="text-white hover:text-ghostRed transition flex items-center gap-1 font-bold">
+      <a href="https://discordapp.com/users/1443238519974924288" target="_blank" rel="noopener noreferrer" class="text-white hover:text-ghostRed transition flex items-center gap-1.5 font-bold">
         <i class="fa-brands fa-discord text-apexPurple"></i> veloxcodm
       </a>
     </div>
   </div>
 
+  <!-- Main Navigation Header -->
   <nav class="relative z-30 bg-matrixDark/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       
-      <!-- Brand & Circular Ghost Avatar (with auto-fallback for 6642.png or 6642.jpg) -->
+      <!-- Brand & Circular Ghost Avatar with dual PNG/JPG fallback -->
       <a href="#hero" class="flex items-center space-x-3.5 group">
         <div class="relative w-12 h-12 rounded-xl bg-panelBg border-2 border-ghostRed/70 overflow-hidden shadow-neonRed group-hover:scale-105 transition-all">
           <img 
@@ -210,7 +212,7 @@
             src="6642.png" 
             alt="Ghost Velox Logo" 
             class="w-full h-full object-cover"
-            onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '6642.jpg'; } else { this.src = 'https://placehold.co/120x120/0e0b16/ff003c?text=GHOST'; }"
+            onerror="handleImgFallback(this, ['6642.jpg', 'https://placehold.co/120x120/0e0b16/ff003c?text=GHOST'])"
           />
           <div class="absolute inset-0 bg-ghostRed/10 pointer-events-none"></div>
         </div>
@@ -253,6 +255,7 @@
     </div>
   </nav>
 
+  <!-- Hero Section -->
   <header id="hero" class="relative z-20 pt-8 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-white/10">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
       
@@ -361,7 +364,7 @@
 
       </div>
 
-      <!-- Right Column: High-Res Ghost Poster Display (8277.png with fallbacks) -->
+      <!-- Right Column: Ghost Poster Display (8277 with PNG/JPG dual fallback) -->
       <div class="lg:col-span-5 flex justify-center">
         <div class="tilt-card w-full max-w-md relative" id="heroCard">
           
@@ -388,7 +391,7 @@
                 src="8277.png" 
                 alt="Ghost Operator Spec-Ops" 
                 class="w-full h-full object-cover object-top filter contrast-125 brightness-95 group-hover:scale-105 transition-transform duration-700"
-                onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '8277.jpg'; } else { this.src = 'https://placehold.co/600x900/08060d/ff003c?text=GHOST+8277.PNG'; }"
+                onerror="handleImgFallback(this, ['8277.jpg', 'https://placehold.co/600x900/08060d/ff003c?text=GHOST+8277'])"
               />
 
               <!-- Tactical HUD Overlay within the Image -->
@@ -407,7 +410,7 @@
                       src="6642.png" 
                       alt="Ghost Badge" 
                       class="w-full h-full object-cover"
-                      onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '6642.jpg'; } else { this.src = 'https://placehold.co/80x80/0e0b16/00f0ff?text=G'; }"
+                      onerror="handleImgFallback(this, ['6642.jpg', 'https://placehold.co/80x80/0e0b16/00f0ff?text=G'])"
                     />
                   </div>
                   <div>
@@ -435,6 +438,7 @@
     </div>
   </header>
 
+  <!-- Section 01: Dossier / Telemetry -->
   <section id="dossier" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
     <div class="flex items-center justify-between mb-8">
       <div class="flex items-center space-x-3">
@@ -527,6 +531,7 @@
     </div>
   </section>
 
+  <!-- Section 02: 10K XP Proof -->
   <section id="trophy" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
     <div class="flex items-center space-x-3 mb-8">
       <div class="h-8 w-1.5 bg-goldAccent"></div>
@@ -586,7 +591,7 @@
           </div>
         </div>
 
-        <!-- Right: The Screenshot Asset Box (18197.png with 18197.jpg fallback) -->
+        <!-- Right: The Screenshot Asset Box (18197 with PNG/JPG fallback) -->
         <div class="lg:col-span-7">
           <div class="relative rounded-2xl border-2 border-goldAccent/60 p-2.5 bg-black/90 shadow-2xl group cursor-pointer" onclick="openScreenshotModal()">
             
@@ -596,7 +601,7 @@
                 src="18197.png" 
                 alt="CODM 10000 Rank XP Legendary Proof" 
                 class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 rounded"
-                onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '18197.jpg'; } else { this.src = 'https://placehold.co/900x420/0e0b16/ffb703?text=CODM+10,000+RANK+XP+PROOF'; }"
+                onerror="handleImgFallback(this, ['18197.jpg', 'https://placehold.co/900x420/0e0b16/ffb703?text=CODM+10,000+RANK+XP+PROOF'])"
               />
 
               <!-- Hover Enlarge Prompt -->
@@ -620,6 +625,7 @@
     </div>
   </section>
 
+  <!-- Section 03: 3 Main Games -->
   <section id="games" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
     <div class="flex items-center space-x-3 mb-8">
       <div class="h-8 w-1.5 bg-apexPurple"></div>
@@ -644,7 +650,7 @@
     <!-- Active Game Content Container -->
     <div id="gameContentCard" class="bg-panelBg/90 border-2 border-ghostRed/50 rounded-2xl p-6 sm:p-10 transition-all duration-300 shadow-2xl relative overflow-hidden">
       
-      <!-- Content Dynamically updated by JS, with default CODM populated -->
+      <!-- Default: CODM -->
       <div id="gameInner" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         
         <div class="lg:col-span-7 space-y-4">
@@ -694,6 +700,7 @@
     </div>
   </section>
 
+  <!-- Section 04: Aim Lab Mini-Game -->
   <section id="aimlab" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
     <div class="flex items-center justify-between mb-8">
       <div class="flex items-center space-x-3">
@@ -750,6 +757,7 @@
     </div>
   </section>
 
+  <!-- Section 05: Discord Comms & Dispatch -->
   <section id="comms" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
     <div class="flex items-center space-x-3 mb-8">
       <div class="h-8 w-1.5 bg-[#5865F2]"></div>
@@ -783,7 +791,7 @@
                   src="6642.png" 
                   alt="Velox Discord Avatar" 
                   class="w-full h-full object-cover"
-                  onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '6642.jpg'; } else { this.src = 'https://placehold.co/100x100/0e0b16/5865F2?text=V'; }"
+                  onerror="handleImgFallback(this, ['6642.jpg', 'https://placehold.co/100x100/0e0b16/5865F2?text=V'])"
                 />
                 <span class="absolute bottom-0.5 right-0.5 w-3 h-3 bg-signalGreen rounded-full border-2 border-black" title="Online"></span>
               </div>
@@ -869,6 +877,7 @@
     </div>
   </section>
 
+  <!-- Footer -->
   <footer class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="bg-panelBg/80 border border-white/10 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row justify-between items-center gap-6">
       
@@ -878,7 +887,7 @@
             src="6642.png" 
             alt="Ghost Velox" 
             class="w-full h-full object-cover"
-            onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '6642.jpg'; } else { this.src = 'https://placehold.co/100x100/0e0b16/ff003c?text=G'; }"
+            onerror="handleImgFallback(this, ['6642.jpg', 'https://placehold.co/100x100/0e0b16/ff003c?text=G'])"
           />
         </div>
         <div>
@@ -907,6 +916,7 @@
     </div>
   </footer>
 
+  <!-- Modal for 10K XP Screenshot Zoom -->
   <div id="screenshotModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
     <div class="bg-matrixDark border-2 border-goldAccent max-w-4xl w-full rounded-2xl overflow-hidden shadow-2xl relative">
       <div class="bg-panelBg px-5 py-3 border-b border-white/10 flex justify-between items-center">
@@ -924,7 +934,7 @@
           src="18197.png" 
           alt="10,000 Rank XP proof inspect" 
           class="w-full max-h-[72vh] object-contain rounded-lg border border-goldAccent/40"
-          onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '18197.jpg'; } else { this.src = 'https://placehold.co/900x420/0e0b16/ffb703?text=10,000+RANK+XP+LEGENDARY'; }"
+          onerror="handleImgFallback(this, ['18197.jpg', 'https://placehold.co/900x420/0e0b16/ffb703?text=10,000+RANK+XP+LEGENDARY'])"
         />
         <div class="mt-3 w-full flex flex-wrap justify-between items-center font-mono text-xs text-slate-400 px-2">
           <span>OPERATOR: VELOX (UID: 7049021834008395777)</span>
@@ -934,6 +944,7 @@
     </div>
   </div>
 
+  <!-- Tactical Toast HUD Notification -->
   <div id="toastHUD" class="fixed bottom-6 right-6 z-50 transform translate-y-28 opacity-0 transition-all duration-300 pointer-events-none">
     <div class="bevel-btn bg-panelBg border-2 border-ghostRed text-white px-5 py-3.5 shadow-neonRed flex items-center gap-3">
       <i class="fa-solid fa-skull text-ghostRed text-xl"></i>
@@ -945,6 +956,18 @@
   </div>
 
   <script>
+    // Robust Multi-Extension Image Fallback Handler
+    function handleImgFallback(imgElement, candidateUrls) {
+      if (!imgElement.dataset.fallbackIndex) {
+        imgElement.dataset.fallbackIndex = '0';
+      }
+      let idx = parseInt(imgElement.dataset.fallbackIndex, 10);
+      if (idx < candidateUrls.length) {
+        imgElement.dataset.fallbackIndex = (idx + 1).toString();
+        imgElement.src = candidateUrls[idx];
+      }
+    }
+
     // Web Audio Synthesizer for Tactical SFX
     let audioContext = null;
     let isAudioActive = true;
