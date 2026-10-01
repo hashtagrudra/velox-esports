@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VELOX // TASK FORCE 141 APEX TERMINAL</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Orbitron, Chakra Petch, JetBrains Mono, Syne -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=JetBrains+Mono:wght@400;600;800&family=Orbitron:wght@600;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Canvas-Confetti for 10K XP celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            deepVoid: '#040207',
+            matrixDark: '#08060d',
+            panelBg: '#0e0b16',
+            ghostRed: '#ff003c',
+            ghostCrimson: '#8a0020',
+            cyberCyan: '#00f0ff',
+            apexPurple: '#9d4edd',
+            signalGreen: '#00ff88',
+            goldAccent: '#ffb703'
+          },
+          fontFamily: {
+            orbitron: ['Orbitron', 'sans-serif'],
+            chakra: ['"Chakra Petch"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            syne: ['Syne', 'sans-serif']
+          },
+          boxShadow: {
+            neonRed: '0 0 25px rgba(255, 0, 60, 0.45)',
+            neonCyan: '0 0 25px rgba(0, 240, 255, 0.45)',
+            neonPurple: '0 0 25px rgba(157, 78, 221, 0.45)',
+            trophyGold: '0 0 35px rgba(255, 183, 3, 0.5)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Sleek Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #040207;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, #ff003c, #9d4edd);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00f0ff;
+    }
+
+    body {
+      background-color: #040207;
+      color: #e2e8f0;
+      font-family: 'Chakra Petch', sans-serif;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* Interactive Background Radar Grid */
+    .tactical-grid-bg {
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(255, 0, 60, 0.08) 0%, transparent 60%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 50px 50px, 50px 50px;
+    }
+
+    /* Cyber Beveled / Cut-Corner Panels */
+    .bevel-box {
+      clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+    }
+    .bevel-btn {
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    }
+
+    /* Authentic Glitch Header */
+    .glitch-header {
+      position: relative;
+      display: inline-block;
+    }
+    .glitch-header::before,
+    .glitch-header::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      clip: rect(0, 0, 0, 0);
+    }
+    .glitch-header:hover::before {
+      left: -2px;
+      text-shadow: 2px 0 #ff003c;
+      animation: glitch-left 1.5s infinite linear alternate-reverse;
+    }
+    .glitch-header:hover::after {
+      left: 2px;
+      text-shadow: -2px 0 #00f0ff;
+      animation: glitch-right 2s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-left {
+      0% { clip: rect(10px, 9999px, 30px, 0); }
+      30% { clip: rect(70px, 9999px, 85px, 0); }
+      70% { clip: rect(35px, 9999px, 55px, 0); }
+      100% { clip: rect(90px, 9999px, 110px, 0); }
+    }
+    @keyframes glitch-right {
+      0% { clip: rect(50px, 9999px, 80px, 0); }
+      30% { clip: rect(20px, 9999px, 40px, 0); }
+      70% { clip: rect(80px, 9999px, 100px, 0); }
+      100% { clip: rect(10px, 9999px, 30px, 0); }
+    }
+
+    /* Glowing Pulsing Borders */
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 0, 60, 0.35), inset 0 0 10px rgba(255, 0, 60, 0.15);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(0, 240, 255, 0.4), inset 0 0 15px rgba(0, 240, 255, 0.2);
+      }
+    }
+    .border-glow-active {
+      animation: pulseGlow 4s infinite ease-in-out;
+    }
+
+    /* 3D Tilt Card Container */
+    .tilt-card {
+      transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.2s ease;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    /* CRT Vignette Scanline Effect */
+    .crt-screen {
+      background: linear-gradient(rgba(18, 16, 26, 0) 50%, rgba(0, 0, 0, 0.4) 50%),
+                  radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.85) 100%);
+      background-size: 100% 3px, 100% 100%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body class="tactical-grid-bg relative min-h-screen selection:bg-ghostRed selection:text-white">
+
+  <!-- Interactive Dynamic Canvas Background (Cyber Particles & Stars) -->
+  <canvas id="ambientCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+  <!-- CRT Monitor Overlay -->
+  <div class="fixed inset-0 crt-screen z-50 pointer-events-none opacity-50"></div>
+
+  <div class="bg-black/90 border-b border-ghostRed/40 text-[11px] font-mono py-1.5 px-4 sticky top-0 z-40 backdrop-blur-md flex flex-wrap justify-between items-center text-slate-300">
+    <div class="flex items-center gap-3">
+      <span class="inline-flex items-center gap-1.5 text-ghostRed font-extrabold uppercase tracking-wider">
+        <span class="w-2 h-2 rounded-full bg-ghostRed animate-ping"></span>
+        DEFCON 1 // GHOST PROTOCOL
+      </span>
+      <span class="hidden md:inline text-slate-600">|</span>
+      <span class="text-cyberCyan hidden sm:inline">
+        <i class="fa-solid fa-satellite-dish mr-1 text-xs"></i>SATCOM: INDIA [PUNJAB NODE]
+      </span>
+      <span class="hidden md:inline text-slate-600">|</span>
+      <span class="text-apexPurple font-bold hidden lg:inline">
+        LOCAL TIME: <span id="punjabClock" class="text-white">--:--:-- IST</span>
+      </span>
+    </div>
+
+    <!-- Quick Audio Mute & Direct DM Header Button -->
+    <div class="flex items-center gap-3">
+      <button onclick="toggleAudio()" id="audioToggleBtn" class="flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-panelBg border border-white/20 hover:border-cyberCyan text-cyberCyan text-[11px] transition">
+        <i class="fa-solid fa-volume-high" id="audioIcon"></i>
+        <span id="audioLabel">AUDIO ON</span>
+      </button>
+
+      <a href="https://discordapp.com/users/1443238519974924288" target="_blank" rel="noopener noreferrer" class="text-white hover:text-ghostRed transition flex items-center gap-1 font-bold">
+        <i class="fa-brands fa-discord text-apexPurple"></i> veloxcodm
+      </a>
+    </div>
+  </div>
+
+  <nav class="relative z-30 bg-matrixDark/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand & Circular Ghost Avatar (with auto-fallback for 6642.png or 6642.jpg) -->
+      <a href="#hero" class="flex items-center space-x-3.5 group">
+        <div class="relative w-12 h-12 rounded-xl bg-panelBg border-2 border-ghostRed/70 overflow-hidden shadow-neonRed group-hover:scale-105 transition-all">
+          <img 
+            id="navAvatarImg"
+            src="6642.png" 
+            alt="Ghost Velox Logo" 
+            class="w-full h-full object-cover"
+            onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '6642.jpg'; } else { this.src = 'https://placehold.co/120x120/0e0b16/ff003c?text=GHOST'; }"
+          />
+          <div class="absolute inset-0 bg-ghostRed/10 pointer-events-none"></div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-orbitron font-black text-2xl text-white tracking-widest group-hover:text-ghostRed transition">VELOX</span>
+            <span class="bg-ghostRed/20 text-ghostRed text-[9px] font-mono px-2 py-0.5 rounded border border-ghostRed/60 font-bold uppercase tracking-widest">
+              SAS // CODM APEX
+            </span>
+          </div>
+          <span class="text-[11px] font-mono text-cyberCyan tracking-[0.2em] block uppercase">PUNJAB SPECIAL OPERATOR</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Items -->
+      <div class="hidden md:flex items-center space-x-6 font-mono text-xs tracking-wider">
+        <a href="#dossier" class="text-slate-300 hover:text-ghostRed transition flex items-center gap-1.5">
+          <span class="text-ghostRed font-bold">01.</span> DOSSIER
+        </a>
+        <a href="#trophy" class="text-slate-300 hover:text-goldAccent transition flex items-center gap-1.5">
+          <span class="text-goldAccent font-bold">02.</span> 10K XP PROOF
+        </a>
+        <a href="#games" class="text-slate-300 hover:text-apexPurple transition flex items-center gap-1.5">
+          <span class="text-apexPurple font-bold">03.</span> COMBAT ARENAS
+        </a>
+        <a href="#aimlab" class="text-slate-300 hover:text-signalGreen transition flex items-center gap-1.5">
+          <span class="text-signalGreen font-bold">04.</span> AIM LAB
+        </a>
+        <a href="#comms" class="text-slate-300 hover:text-cyberCyan transition flex items-center gap-1.5">
+          <span class="text-cyberCyan font-bold">05.</span> COMMS
+        </a>
+      </div>
+
+      <!-- Action: Open Discord DM -->
+      <a href="https://discordapp.com/users/1443238519974924288" target="_blank" rel="noopener noreferrer" class="bevel-btn px-4 py-2 bg-gradient-to-r from-ghostRed to-apexPurple hover:from-red-600 hover:to-purple-700 text-white font-orbitron text-xs font-bold tracking-wider transition-all shadow-neonRed flex items-center gap-2">
+        <i class="fa-brands fa-discord text-sm"></i>
+        <span>DM VELOX</span>
+      </a>
+
+    </div>
+  </nav>
+
+  <header id="hero" class="relative z-20 pt-8 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-white/10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      
+      <!-- Left Column: Identity, Lore, Copy Hub -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Tactical Badges -->
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-ghostRed/20 border border-ghostRed text-ghostRed font-mono text-xs font-bold tracking-wider">
+            <i class="fa-solid fa-skull"></i> CALLSIGN: GHOST
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-cyberCyan/20 border border-cyberCyan text-cyberCyan font-mono text-xs font-bold tracking-wider">
+            <i class="fa-solid fa-location-dot"></i> PUNJAB, INDIA
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-signalGreen/20 border border-signalGreen text-signalGreen font-mono text-xs font-bold">
+            <i class="fa-solid fa-crosshairs"></i> KD 2.25 (IMPROVED)
+          </span>
+        </div>
+
+        <!-- Glitch Main Heading -->
+        <div>
+          <h1 class="text-5xl sm:text-7xl font-orbitron font-black text-white tracking-tight uppercase glitch-header" data-text="VELOX // GHOST">
+            VELOX <span class="text-transparent bg-clip-text bg-gradient-to-r from-ghostRed via-apexPurple to-cyberCyan">// GHOST</span>
+          </h1>
+          <p class="font-mono text-xs sm:text-sm text-cyberCyan tracking-[0.25em] uppercase mt-2">
+            ESPORTS FRAGGER // MULTI-TITLED APEX OPERATOR
+          </p>
+        </div>
+
+        <!-- Signature Quote Card with Sound trigger -->
+        <div class="relative bg-panelBg/95 border-l-4 border-ghostRed p-5 rounded-r-xl border-y border-r border-white/10 shadow-2xl backdrop-blur group">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-[10px] font-mono text-ghostRed uppercase tracking-widest font-bold">OPERATOR PHILOSOPHY</span>
+            <button onclick="playVoiceQuote()" class="text-xs text-cyberCyan hover:text-white font-mono flex items-center gap-1">
+              <i class="fa-solid fa-play text-[10px]"></i> PLAY VOICE LOG
+            </button>
+          </div>
+          <p class="font-syne text-xl sm:text-2xl font-bold text-white italic tracking-wide">
+            “Ranked isn't a grind. Ranked is home.”
+          </p>
+          <div class="mt-3 flex items-center justify-between text-xs font-mono text-slate-400">
+            <span>&mdash; VELOX (TASK FORCE 141)</span>
+            <span class="text-apexPurple font-bold">LEGENDARY PROTOCOL</span>
+          </div>
+        </div>
+
+        <!-- Instant Copy Tactical Cards: UID, Discord User, Service -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+          
+          <!-- CODM UID Card -->
+          <div class="bg-panelBg/90 border border-white/10 hover:border-ghostRed rounded-xl p-3.5 transition group">
+            <div class="flex justify-between items-center text-[10px] font-mono text-slate-400">
+              <span>CODM UID</span>
+              <i class="fa-solid fa-fingerprint text-ghostRed group-hover:rotate-12 transition"></i>
+            </div>
+            <div class="font-mono text-xs font-bold text-white mt-1.5 select-all truncate" title="7049021834008395777">
+              7049021834008395777
+            </div>
+            <button onclick="copyData('7049021834008395777', 'CODM UID Copied!')" class="mt-2.5 w-full py-1 text-[11px] font-mono bg-white/5 hover:bg-ghostRed hover:text-white rounded border border-white/10 transition flex items-center justify-center gap-1.5 text-slate-300">
+              <i class="fa-regular fa-copy"></i> COPY UID
+            </button>
+          </div>
+
+          <!-- Discord User Card -->
+          <div class="bg-panelBg/90 border border-white/10 hover:border-cyberCyan rounded-xl p-3.5 transition group">
+            <div class="flex justify-between items-center text-[10px] font-mono text-slate-400">
+              <span>DISCORD TAG</span>
+              <i class="fa-brands fa-discord text-cyberCyan"></i>
+            </div>
+            <div class="font-mono text-xs font-bold text-white mt-1.5 truncate">
+              veloxcodm
+            </div>
+            <button onclick="copyData('veloxcodm', 'Discord username veloxcodm copied!')" class="mt-2.5 w-full py-1 text-[11px] font-mono bg-white/5 hover:bg-cyberCyan hover:text-black rounded border border-white/10 transition flex items-center justify-center gap-1.5 text-slate-300">
+              <i class="fa-regular fa-copy"></i> COPY TAG
+            </button>
+          </div>
+
+          <!-- Service Experience Card -->
+          <div class="bg-panelBg/90 border border-white/10 hover:border-apexPurple rounded-xl p-3.5 transition group">
+            <div class="flex justify-between items-center text-[10px] font-mono text-slate-400">
+              <span>ACTIVE SERVICE</span>
+              <i class="fa-solid fa-stopwatch text-apexPurple"></i>
+            </div>
+            <div class="font-orbitron font-extrabold text-sm text-white mt-1">
+              6 MONTHS
+            </div>
+            <div class="mt-2.5 text-[10px] font-mono text-signalGreen flex items-center gap-1">
+              <i class="fa-solid fa-arrow-trend-up"></i> FAST TRACK TO 10K XP
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CTA Action Buttons -->
+        <div class="flex flex-wrap gap-4 pt-2">
+          <a href="https://discordapp.com/users/1443238519974924288" target="_blank" rel="noopener noreferrer" class="bevel-btn px-6 py-3.5 bg-ghostRed hover:bg-red-600 text-white font-orbitron font-bold text-xs tracking-wider transition-all shadow-neonRed flex items-center gap-2">
+            <i class="fa-brands fa-discord text-base"></i> OPEN DISCORD DM
+          </a>
+          <a href="https://discord.gg/vFAg2YtHS" target="_blank" rel="noopener noreferrer" class="bevel-btn px-6 py-3.5 bg-panelBg border border-apexPurple hover:bg-apexPurple/25 text-white font-orbitron font-bold text-xs tracking-wider transition shadow-neonPurple flex items-center gap-2">
+            <i class="fa-solid fa-tower-broadcast text-apexPurple"></i> JOIN VELOX SERVER
+          </a>
+          <a href="#aimlab" class="bevel-btn px-5 py-3.5 bg-panelBg border border-signalGreen/40 hover:border-signalGreen text-signalGreen font-mono text-xs font-bold tracking-wider transition flex items-center gap-2">
+            <i class="fa-solid fa-crosshairs"></i> CALIBRATE AIM
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Right Column: High-Res Ghost Poster Display (8277.png with fallbacks) -->
+      <div class="lg:col-span-5 flex justify-center">
+        <div class="tilt-card w-full max-w-md relative" id="heroCard">
+          
+          <!-- Outer Pulsing Glow Ambient Ring -->
+          <div class="absolute -inset-1.5 bg-gradient-to-r from-ghostRed via-apexPurple to-cyberCyan rounded-2xl blur-lg opacity-40 animate-pulse"></div>
+
+          <div class="relative bg-matrixDark rounded-2xl border-2 border-white/20 overflow-hidden shadow-2xl border-glow-active">
+            
+            <!-- Terminal Head Bar -->
+            <div class="bg-panelBg px-4 py-2.5 border-b border-white/10 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-ghostRed animate-ping"></span>
+                <span class="font-mono text-xs font-bold text-ghostRed">OPERATOR: GHOST // TF-141</span>
+              </div>
+              <span class="font-mono text-[10px] text-cyberCyan bg-black/60 px-2 py-0.5 rounded border border-cyberCyan/40">
+                PUNJAB REGION
+              </span>
+            </div>
+
+            <!-- Ghost Poster Image Container (8277.png + 8277.jpg fallback) -->
+            <div class="relative w-full aspect-[9/14] bg-black overflow-hidden group">
+              <img 
+                id="ghostPosterImg"
+                src="8277.png" 
+                alt="Ghost Operator Spec-Ops" 
+                class="w-full h-full object-cover object-top filter contrast-125 brightness-95 group-hover:scale-105 transition-transform duration-700"
+                onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '8277.jpg'; } else { this.src = 'https://placehold.co/600x900/08060d/ff003c?text=GHOST+8277.PNG'; }"
+              />
+
+              <!-- Tactical HUD Overlay within the Image -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30 pointer-events-none"></div>
+
+              <!-- Top Left Reticle Coordinates -->
+              <div class="absolute top-4 left-4 font-mono text-[10px] text-ghostRed/80 bg-black/80 px-2 py-1 rounded border border-ghostRed/40">
+                <i class="fa-solid fa-location-crosshairs mr-1"></i>31.1471° N, 75.3412° E
+              </div>
+
+              <!-- Floating Ghost Crest Badge at Bottom of Poster -->
+              <div class="absolute bottom-4 left-4 right-4 bg-black/85 backdrop-blur-md p-3.5 rounded-xl border border-ghostRed/50 flex items-center justify-between shadow-2xl">
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-lg overflow-hidden border border-cyberCyan/70">
+                    <img 
+                      src="6642.png" 
+                      alt="Ghost Badge" 
+                      class="w-full h-full object-cover"
+                      onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '6642.jpg'; } else { this.src = 'https://placehold.co/80x80/0e0b16/00f0ff?text=G'; }"
+                    />
+                  </div>
+                  <div>
+                    <span class="font-orbitron font-black text-sm text-white block">SIMON "GHOST" RILEY</span>
+                    <span class="font-mono text-[10px] text-ghostRed font-bold tracking-wider">SPECIAL AIR SERVICE</span>
+                  </div>
+                </div>
+                <span class="px-2 py-1 bg-ghostRed/20 text-ghostRed text-[10px] font-mono font-bold rounded border border-ghostRed animate-pulse">
+                  ACTIVE
+                </span>
+              </div>
+
+            </div>
+
+            <!-- Card Bottom Telemetry Bar -->
+            <div class="bg-panelBg px-4 py-2 border-t border-white/10 font-mono text-[11px] text-slate-400 flex justify-between items-center">
+              <span>INTELLIGENCE ARCHIVE</span>
+              <span class="text-cyberCyan font-bold">100% RECONNAISSANCE</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <section id="dossier" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center space-x-3">
+        <div class="h-8 w-1.5 bg-ghostRed"></div>
+        <h2 class="text-2xl sm:text-3xl font-orbitron font-extrabold text-white tracking-wider uppercase">
+          01 // TELEMETRY & COMBAT ARCHIVES
+        </h2>
+      </div>
+      <span class="font-mono text-xs text-cyberCyan hidden sm:inline">DATA_STREAM // VERIFIED</span>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      
+      <!-- Metric: KD Ratio 2.25 -->
+      <div class="bg-panelBg/80 border border-ghostRed/40 hover:border-ghostRed p-6 rounded-2xl relative overflow-hidden transition group hover:-translate-y-1">
+        <div class="flex justify-between items-start">
+          <span class="font-mono text-xs text-slate-400 tracking-wider">KILL / DEATH RATIO</span>
+          <div class="w-8 h-8 rounded-lg bg-ghostRed/20 border border-ghostRed flex items-center justify-center text-ghostRed">
+            <i class="fa-solid fa-skull"></i>
+          </div>
+        </div>
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="text-4xl font-orbitron font-black text-white stat-counter" data-target="2.25">0.00</span>
+          <span class="text-xs font-mono text-signalGreen bg-signalGreen/15 px-2 py-0.5 rounded border border-signalGreen/40 font-bold">
+            +IMPROVED
+          </span>
+        </div>
+        <p class="text-xs text-slate-400 mt-2 font-mono">Dominating 5v5 ranked Search & Destroy with sniper flick and entry frags.</p>
+        <div class="w-full bg-matrixDark h-1.5 mt-4 rounded-full overflow-hidden">
+          <div class="bg-ghostRed h-full w-[90%]"></div>
+        </div>
+      </div>
+
+      <!-- Metric: 6 Months Service -->
+      <div class="bg-panelBg/80 border border-cyberCyan/40 hover:border-cyberCyan p-6 rounded-2xl relative overflow-hidden transition group hover:-translate-y-1">
+        <div class="flex justify-between items-start">
+          <span class="font-mono text-xs text-slate-400 tracking-wider">SERVICE TENURE</span>
+          <div class="w-8 h-8 rounded-lg bg-cyberCyan/20 border border-cyberCyan flex items-center justify-center text-cyberCyan">
+            <i class="fa-solid fa-calendar-days"></i>
+          </div>
+        </div>
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="text-4xl font-orbitron font-black text-white stat-counter" data-target="6">0</span>
+          <span class="text-xl font-orbitron font-bold text-cyberCyan">MONTHS</span>
+        </div>
+        <p class="text-xs text-slate-400 mt-2 font-mono">Rapid elevation to top-tier legendary status in just half a year of service.</p>
+        <div class="w-full bg-matrixDark h-1.5 mt-4 rounded-full overflow-hidden">
+          <div class="bg-cyberCyan h-full w-[75%]"></div>
+        </div>
+      </div>
+
+      <!-- Metric: 10,000 XP Reached -->
+      <div class="bg-panelBg/80 border border-goldAccent/40 hover:border-goldAccent p-6 rounded-2xl relative overflow-hidden transition group hover:-translate-y-1">
+        <div class="flex justify-between items-start">
+          <span class="font-mono text-xs text-slate-400 tracking-wider">CODM RANKED XP</span>
+          <div class="w-8 h-8 rounded-lg bg-goldAccent/20 border border-goldAccent flex items-center justify-center text-goldAccent">
+            <i class="fa-solid fa-crown"></i>
+          </div>
+        </div>
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="text-4xl font-orbitron font-black text-white stat-counter" data-target="10000">0</span>
+          <span class="text-xs font-mono text-goldAccent bg-goldAccent/15 px-2 py-0.5 rounded border border-goldAccent/40 font-bold">
+            10K MILESTONE
+          </span>
+        </div>
+        <p class="text-xs text-slate-400 mt-2 font-mono">Verified in-game 10,000 XP legendary icon update unlocked.</p>
+        <div class="w-full bg-matrixDark h-1.5 mt-4 rounded-full overflow-hidden">
+          <div class="bg-goldAccent h-full w-[100%]"></div>
+        </div>
+      </div>
+
+      <!-- Metric: Win Rate / Clutch % -->
+      <div class="bg-panelBg/80 border border-apexPurple/40 hover:border-apexPurple p-6 rounded-2xl relative overflow-hidden transition group hover:-translate-y-1">
+        <div class="flex justify-between items-start">
+          <span class="font-mono text-xs text-slate-400 tracking-wider">SQUAD WIN EXECUTION</span>
+          <div class="w-8 h-8 rounded-lg bg-apexPurple/20 border border-apexPurple flex items-center justify-center text-apexPurple">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+        </div>
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="text-4xl font-orbitron font-black text-white stat-counter" data-target="76.8">0</span>
+          <span class="text-xl font-orbitron font-bold text-apexPurple">%</span>
+        </div>
+        <p class="text-xs text-slate-400 mt-2 font-mono">Consistent 1vX tournament and public lobby clutch conversion.</p>
+        <div class="w-full bg-matrixDark h-1.5 mt-4 rounded-full overflow-hidden">
+          <div class="bg-apexPurple h-full w-[80%]"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="trophy" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
+    <div class="flex items-center space-x-3 mb-8">
+      <div class="h-8 w-1.5 bg-goldAccent"></div>
+      <h2 class="text-2xl sm:text-3xl font-orbitron font-extrabold text-white tracking-wider uppercase">
+        02 // 10,000 RANK XP PROOF // LEGENDARY ICON UPDATED
+      </h2>
+    </div>
+
+    <div class="bg-gradient-to-br from-panelBg via-matrixDark to-black border-2 border-goldAccent/50 rounded-2xl p-6 sm:p-10 relative overflow-hidden shadow-trophyGold">
+      
+      <!-- Ambient Gold Corner Flare -->
+      <div class="absolute -top-24 -right-24 w-80 h-80 bg-goldAccent/15 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left Intel Details -->
+        <div class="lg:col-span-5 space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-goldAccent/15 border border-goldAccent text-goldAccent font-mono text-xs font-bold">
+            <i class="fa-solid fa-medal"></i> OFFICIAL ACTIVISION MILESTONE
+          </div>
+
+          <h3 class="text-3xl sm:text-4xl font-orbitron font-black text-white leading-tight">
+            10,000 RANK XP.
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-goldAccent via-yellow-200 to-ghostRed block">
+              LEGENDARY CREST UNLOCKED.
+            </span>
+          </h3>
+
+          <p class="text-slate-300 font-chakra text-lg leading-relaxed">
+            Crossing 10,000 Rank XP in Call of Duty: Mobile separates pub warriors from true competitive masters. Velox earned the legendary gold-crested icon with unmatched trigger discipline and aggressive tactical positioning.
+          </p>
+
+          <!-- Verified Specs Box -->
+          <div class="bg-black/70 p-4 rounded-xl border border-white/10 font-mono text-xs space-y-2">
+            <div class="flex justify-between">
+              <span class="text-slate-400">OPERATOR:</span>
+              <span class="text-white font-bold">Ghost // Velox</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">ACCOUNT UID:</span>
+              <span class="text-cyberCyan font-bold">7049021834008395777</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">STATUS:</span>
+              <span class="text-goldAccent font-bold">10,000 XP LEGENDARY ICON UPDATED</span>
+            </div>
+          </div>
+
+          <!-- Interactive Celebration Buttons -->
+          <div class="pt-2 flex flex-wrap gap-3">
+            <button onclick="triggerConfettiCelebration()" class="bevel-btn px-5 py-3 bg-goldAccent hover:bg-yellow-400 text-black font-orbitron font-bold text-xs tracking-wider transition shadow-lg flex items-center gap-2">
+              <i class="fa-solid fa-champagne-glasses"></i> CELEBRATE 10K XP
+            </button>
+            <button onclick="openScreenshotModal()" class="bevel-btn px-4 py-3 bg-panelBg border border-white/20 hover:border-goldAccent text-white font-mono text-xs transition flex items-center gap-2">
+              <i class="fa-solid fa-expand"></i> FULLSCREEN SCREENSHOT
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: The Screenshot Asset Box (18197.png with 18197.jpg fallback) -->
+        <div class="lg:col-span-7">
+          <div class="relative rounded-2xl border-2 border-goldAccent/60 p-2.5 bg-black/90 shadow-2xl group cursor-pointer" onclick="openScreenshotModal()">
+            
+            <div class="relative overflow-hidden rounded-xl">
+              <img 
+                id="trophyImg"
+                src="18197.png" 
+                alt="CODM 10000 Rank XP Legendary Proof" 
+                class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 rounded"
+                onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '18197.jpg'; } else { this.src = 'https://placehold.co/900x420/0e0b16/ffb703?text=CODM+10,000+RANK+XP+PROOF'; }"
+              />
+
+              <!-- Hover Enlarge Prompt -->
+              <div class="absolute inset-0 bg-goldAccent/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <span class="px-4 py-2 rounded-lg bg-black/85 text-goldAccent font-orbitron text-xs font-bold border border-goldAccent/60 backdrop-blur">
+                  <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> CLICK TO ENLARGE INTEL
+                </span>
+              </div>
+            </div>
+
+            <!-- Image Caption Bar -->
+            <div class="mt-3 px-3 py-1 flex items-center justify-between font-mono text-xs text-slate-400">
+              <span class="text-goldAccent font-bold"><i class="fa-solid fa-trophy mr-1"></i> IN-GAME PROOF: 10,000 RANK XP</span>
+              <span class="text-slate-500">TAP TO CONTINUE &bull; ACTIVISION SYSTEM</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="games" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
+    <div class="flex items-center space-x-3 mb-8">
+      <div class="h-8 w-1.5 bg-apexPurple"></div>
+      <h2 class="text-2xl sm:text-3xl font-orbitron font-extrabold text-white tracking-wider uppercase">
+        03 // ARENAS OF COMBAT // MAIN GAMES
+      </h2>
+    </div>
+
+    <!-- Interactive Game Switcher Buttons -->
+    <div class="flex flex-wrap gap-3 mb-8">
+      <button onclick="switchGame('codm')" id="tab-codm" class="bevel-btn px-6 py-2.5 bg-ghostRed text-white font-orbitron text-xs font-bold tracking-wider transition shadow-neonRed">
+        <i class="fa-solid fa-crosshairs mr-1"></i> CALL OF DUTY: MOBILE
+      </button>
+      <button onclick="switchGame('bloxfruits')" id="tab-bloxfruits" class="bevel-btn px-6 py-2.5 bg-panelBg border border-white/20 text-slate-300 hover:text-white font-orbitron text-xs font-bold tracking-wider transition">
+        <i class="fa-solid fa-skull-crossbones mr-1"></i> BLOX FRUITS
+      </button>
+      <button onclick="switchGame('minecraft')" id="tab-minecraft" class="bevel-btn px-6 py-2.5 bg-panelBg border border-white/20 text-slate-300 hover:text-white font-orbitron text-xs font-bold tracking-wider transition">
+        <i class="fa-solid fa-cube mr-1"></i> MINECRAFT
+      </button>
+    </div>
+
+    <!-- Active Game Content Container -->
+    <div id="gameContentCard" class="bg-panelBg/90 border-2 border-ghostRed/50 rounded-2xl p-6 sm:p-10 transition-all duration-300 shadow-2xl relative overflow-hidden">
+      
+      <!-- Content Dynamically updated by JS, with default CODM populated -->
+      <div id="gameInner" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <div class="lg:col-span-7 space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-ghostRed/20 border border-ghostRed text-ghostRed font-mono text-xs font-bold">
+            PRIMARY ESPORTS DISCIPLINE
+          </div>
+          <h3 class="text-3xl font-orbitron font-black text-white">
+            CALL OF DUTY: MOBILE
+          </h3>
+          <p class="text-slate-300 font-chakra text-lg leading-relaxed">
+            Velox's primary battleground where he achieved the prestigious 10,000 XP Legendary milestone. Highly agile entry-fragger specializing in slide-canceling, aggressive CQB SMG pushes, and clutch Search & Destroy rounds.
+          </p>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs pt-2">
+            <div class="bg-black/60 p-3 rounded-lg border border-white/10">
+              <span class="text-slate-400 block">ROLE</span>
+              <span class="text-white font-bold text-sm">Entry Slayer</span>
+            </div>
+            <div class="bg-black/60 p-3 rounded-lg border border-white/10">
+              <span class="text-slate-400 block">K/D RATIO</span>
+              <span class="text-signalGreen font-bold text-sm">2.25 (Improved)</span>
+            </div>
+            <div class="bg-black/60 p-3 rounded-lg border border-white/10">
+              <span class="text-slate-400 block">RANK TIER</span>
+              <span class="text-goldAccent font-bold text-sm">10k+ XP Legendary</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="w-full bg-matrixDark border border-ghostRed/50 rounded-xl p-6 text-center space-y-4">
+            <div class="w-20 h-20 rounded-2xl bg-ghostRed/15 border-2 border-ghostRed mx-auto flex items-center justify-center text-ghostRed text-3xl shadow-neonRed">
+              <i class="fa-solid fa-crosshairs"></i>
+            </div>
+            <div>
+              <h4 class="font-orbitron font-bold text-white text-base">CODM COMPETITIVE DECK</h4>
+              <p class="font-mono text-xs text-slate-400 mt-1">UID: 7049021834008395777</p>
+            </div>
+            <button onclick="copyData('7049021834008395777', 'CODM UID Copied!')" class="w-full py-2.5 bg-ghostRed hover:bg-red-600 text-white font-orbitron text-xs font-bold rounded transition">
+              <i class="fa-regular fa-copy mr-1"></i> COPY CODM UID
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <section id="aimlab" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center space-x-3">
+        <div class="h-8 w-1.5 bg-signalGreen"></div>
+        <h2 class="text-2xl sm:text-3xl font-orbitron font-extrabold text-white tracking-wider uppercase">
+          04 // TACTICAL AIM LAB // REACTION DRILL
+        </h2>
+      </div>
+      <span class="font-mono text-xs text-signalGreen hidden sm:inline"><i class="fa-solid fa-stopwatch mr-1"></i>TEST YOUR REFLEXES</span>
+    </div>
+
+    <div class="bg-panelBg/90 border-2 border-signalGreen/40 rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
+      <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-white/10 mb-6">
+        <div>
+          <h3 class="text-xl font-orbitron font-bold text-white">REACTION TIME & TARGET ACQUISITION</h3>
+          <p class="text-xs font-mono text-slate-400">Eliminate spawning holographic crosshairs before the 20-second timer reaches zero.</p>
+        </div>
+
+        <div class="flex items-center gap-4 sm:gap-6 font-mono text-sm">
+          <div class="bg-black/60 px-4 py-2 rounded-lg border border-white/10 text-center">
+            <span class="text-slate-400 text-xs block">TARGETS HIT</span>
+            <span id="drillScore" class="text-cyberCyan font-bold text-xl">0</span>
+          </div>
+          <div class="bg-black/60 px-4 py-2 rounded-lg border border-white/10 text-center">
+            <span class="text-slate-400 text-xs block">TIME LEFT</span>
+            <span id="drillTimer" class="text-ghostRed font-bold text-xl">20s</span>
+          </div>
+          <button id="startDrillBtn" onclick="startReactionDrill()" class="bevel-btn px-5 py-2.5 bg-signalGreen hover:bg-emerald-400 text-black font-orbitron font-bold text-xs tracking-wider transition">
+            START DRILL
+          </button>
+        </div>
+      </div>
+
+      <!-- Aim Drill Canvas Sandbox -->
+      <div id="drillBox" class="relative w-full h-80 bg-black/90 rounded-xl border border-white/15 overflow-hidden flex items-center justify-center select-none cursor-crosshair">
+        
+        <div id="drillSplash" class="text-center p-6 space-y-3">
+          <i class="fa-solid fa-bullseye text-5xl text-signalGreen animate-pulse"></i>
+          <h4 class="font-orbitron font-bold text-white text-lg">CALIBRATE YOUR FIRING SOLUTION</h4>
+          <p class="font-mono text-xs text-slate-400 max-w-md mx-auto">
+            Click 'START DRILL' to initiate a 20-second reflex challenge. Match Velox's lightning-fast reaction speed!
+          </p>
+        </div>
+
+        <!-- Floating Target Element -->
+        <div id="drillTarget" class="absolute hidden w-12 h-12 rounded-full cursor-pointer flex items-center justify-center transition-transform hover:scale-110 active:scale-90">
+          <div class="w-10 h-10 rounded-full border-2 border-ghostRed bg-ghostRed/25 flex items-center justify-center shadow-neonRed animate-ping"></div>
+          <div class="absolute w-6 h-6 rounded-full bg-cyberCyan border border-white flex items-center justify-center">
+            <i class="fa-solid fa-crosshairs text-[10px] text-black"></i>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="comms" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-white/10">
+    <div class="flex items-center space-x-3 mb-8">
+      <div class="h-8 w-1.5 bg-[#5865F2]"></div>
+      <h2 class="text-2xl sm:text-3xl font-orbitron font-extrabold text-white tracking-wider uppercase">
+        05 // TACTICAL COMMS & SQUAD FREQUENCY
+      </h2>
+    </div>
+
+    <div class="bg-gradient-to-br from-panelBg via-matrixDark to-black border-2 border-[#5865F2]/50 rounded-2xl p-6 sm:p-10 relative overflow-hidden shadow-2xl">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left: Direct DM Showcase -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#5865F2]/20 border border-[#5865F2] text-[#8ea1e1] font-mono text-xs font-bold">
+            <i class="fa-brands fa-discord text-base"></i> ENCRYPTED DIRECT FREQUENCY
+          </div>
+
+          <h3 class="text-3xl sm:text-4xl font-orbitron font-black text-white">
+            CONNECT WITH VELOX ON DISCORD
+          </h3>
+
+          <p class="text-slate-300 font-chakra text-lg leading-relaxed">
+            Need an entry fragger for competitive Call of Duty: Mobile tournaments, an ally for Third Sea bounty raids in Blox Fruits, or an aggressive Bedwars technician in Minecraft? Send a direct message on Discord.
+          </p>
+
+          <!-- User Highlight Card -->
+          <div class="bg-black/75 border border-[#5865F2]/50 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="relative w-14 h-14 rounded-xl bg-panelBg border-2 border-[#5865F2] overflow-hidden">
+                <img 
+                  src="6642.png" 
+                  alt="Velox Discord Avatar" 
+                  class="w-full h-full object-cover"
+                  onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '6642.jpg'; } else { this.src = 'https://placehold.co/100x100/0e0b16/5865F2?text=V'; }"
+                />
+                <span class="absolute bottom-0.5 right-0.5 w-3 h-3 bg-signalGreen rounded-full border-2 border-black" title="Online"></span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-orbitron font-bold text-lg text-white">veloxcodm</span>
+                  <span class="bg-[#5865F2]/20 border border-[#5865F2] text-[#8ea1e1] text-[10px] font-mono px-2 py-0.5 rounded font-bold">VERIFIED</span>
+                </div>
+                <span class="font-mono text-xs text-slate-400 block mt-0.5">Ghost // India, Punjab &bull; Ready for Scrims</span>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="https://discordapp.com/users/1443238519974924288" target="_blank" rel="noopener noreferrer" class="bevel-btn px-5 py-2.5 bg-[#5865F2] text-white hover:bg-[#4752c4] font-orbitron font-bold text-xs tracking-wider transition shadow-lg flex items-center gap-2">
+                <i class="fa-solid fa-paper-plane"></i> OPEN DM
+              </a>
+              <button onclick="copyData('veloxcodm', 'Discord username veloxcodm copied!')" class="bevel-btn px-4 py-2.5 bg-panelBg border border-white/20 hover:border-[#5865F2] text-slate-200 hover:text-white font-mono text-xs transition flex items-center gap-2">
+                <i class="fa-regular fa-copy"></i> COPY TAG
+              </button>
+            </div>
+          </div>
+
+          <!-- Official Discord Server Card -->
+          <div class="bg-gradient-to-r from-[#5865F2]/20 to-apexPurple/20 border border-apexPurple/50 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-xl bg-apexPurple/30 border border-apexPurple flex items-center justify-center text-apexPurple text-lg">
+                <i class="fa-solid fa-users-rays"></i>
+              </div>
+              <div>
+                <span class="font-orbitron font-bold text-sm text-white block">OFFICIAL VELOX DISCORD SERVER</span>
+                <span class="font-mono text-[11px] text-apexPurple">Server Code: vFAg2YtHS</span>
+              </div>
+            </div>
+            <a href="https://discord.gg/vFAg2YtHS" target="_blank" rel="noopener noreferrer" class="bevel-btn px-5 py-2.5 bg-apexPurple hover:bg-purple-600 text-white font-orbitron font-bold text-xs tracking-wider transition flex items-center gap-2 shadow-neonPurple">
+              <i class="fa-solid fa-door-open"></i> JOIN SERVER
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Right: Dispatch Transmission Form -->
+        <div class="lg:col-span-5 bg-black/80 border border-white/10 rounded-2xl p-6 font-mono text-xs space-y-4">
+          <div class="flex justify-between items-center border-b border-white/10 pb-3">
+            <span class="text-cyberCyan font-bold uppercase tracking-wider">
+              <i class="fa-solid fa-terminal mr-1"></i> DIRECT SQUAD TRANSMISSION
+            </span>
+            <span class="text-[10px] text-slate-500">256-BIT ENCRYPTION</span>
+          </div>
+
+          <form onsubmit="handleDispatch(event)" class="space-y-3">
+            <div>
+              <label class="block text-slate-400 mb-1">CALLSIGN / CLAN</label>
+              <input type="text" id="dispName" required placeholder="e.g. DeltaSix / Vanguard" class="w-full bg-panelBg border border-white/10 rounded p-2.5 text-white focus:outline-none focus:border-cyberCyan" />
+            </div>
+
+            <div>
+              <label class="block text-slate-400 mb-1">TARGET ARENA</label>
+              <select class="w-full bg-panelBg border border-white/10 rounded p-2.5 text-white focus:outline-none focus:border-cyberCyan">
+                <option>CODM Ranked MP / Scrimmage</option>
+                <option>Blox Fruits Raid / Bounty Hunting</option>
+                <option>Minecraft Bedwars / Crystal PvP</option>
+                <option>Casual Squad Co-op</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-slate-400 mb-1">YOUR DISCORD HANDLE</label>
+              <input type="text" id="dispDiscord" required placeholder="e.g. Commander#0001" class="w-full bg-panelBg border border-white/10 rounded p-2.5 text-white focus:outline-none focus:border-cyberCyan" />
+            </div>
+
+            <div>
+              <label class="block text-slate-400 mb-1">MISSION BRIEFING</label>
+              <textarea rows="3" placeholder="Enter scrimmage time, lobby details, or challenge..." class="w-full bg-panelBg border border-white/10 rounded p-2.5 text-white focus:outline-none focus:border-cyberCyan"></textarea>
+            </div>
+
+            <button type="submit" class="bevel-btn w-full py-3 bg-ghostRed hover:bg-red-600 text-white font-orbitron font-bold text-xs tracking-wider transition shadow-neonRed">
+              SEND TRANSMISSION
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-panelBg/80 border border-white/10 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row justify-between items-center gap-6">
+      
+      <div class="flex items-center space-x-3.5">
+        <div class="w-11 h-11 rounded-xl bg-matrixDark border border-ghostRed overflow-hidden">
+          <img 
+            src="6642.png" 
+            alt="Ghost Velox" 
+            class="w-full h-full object-cover"
+            onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '6642.jpg'; } else { this.src = 'https://placehold.co/100x100/0e0b16/ff003c?text=G'; }"
+          />
+        </div>
+        <div>
+          <span class="font-orbitron font-black text-white text-base block tracking-wider">GHOST // VELOX</span>
+          <span class="text-xs font-mono text-slate-400">“Ranked isn't a grind. Ranked is home.”</span>
+        </div>
+      </div>
+
+      <div class="font-mono text-xs text-slate-500 text-center md:text-right">
+        <div>CODM UID: <span class="text-cyberCyan font-bold">7049021834008395777</span> &bull; INDIA, PUNJAB</div>
+        <div class="mt-1">&copy; <span id="yearEl">2026</span> VELOX. TASK FORCE 141 DECLASSIFIED RECON.</div>
+      </div>
+
+      <div class="flex items-center space-x-4 text-slate-400">
+        <a href="https://discordapp.com/users/1443238519974924288" target="_blank" rel="noopener noreferrer" class="hover:text-cyberCyan transition" title="Discord Profile">
+          <i class="fa-brands fa-discord text-xl"></i>
+        </a>
+        <a href="https://discord.gg/vFAg2YtHS" target="_blank" rel="noopener noreferrer" class="hover:text-apexPurple transition" title="Discord Server">
+          <i class="fa-solid fa-server text-xl"></i>
+        </a>
+        <button onclick="copyData('7049021834008395777', 'CODM UID Copied!')" class="hover:text-ghostRed transition" title="Copy UID">
+          <i class="fa-regular fa-clone text-xl"></i>
+        </button>
+      </div>
+
+    </div>
+  </footer>
+
+  <div id="screenshotModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-matrixDark border-2 border-goldAccent max-w-4xl w-full rounded-2xl overflow-hidden shadow-2xl relative">
+      <div class="bg-panelBg px-5 py-3 border-b border-white/10 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-goldAccent animate-ping"></span>
+          <span class="font-orbitron font-bold text-sm text-goldAccent">CODM 10,000 RANK XP PROOF // HIGH-RESOLUTION INTEL</span>
+        </div>
+        <button onclick="closeScreenshotModal()" class="text-slate-400 hover:text-white text-xl">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="p-4 bg-black flex flex-col items-center">
+        <img 
+          src="18197.png" 
+          alt="10,000 Rank XP proof inspect" 
+          class="w-full max-h-[72vh] object-contain rounded-lg border border-goldAccent/40"
+          onerror="if (!this.triedJpg) { this.triedJpg = true; this.src = '18197.jpg'; } else { this.src = 'https://placehold.co/900x420/0e0b16/ffb703?text=10,000+RANK+XP+LEGENDARY'; }"
+        />
+        <div class="mt-3 w-full flex flex-wrap justify-between items-center font-mono text-xs text-slate-400 px-2">
+          <span>OPERATOR: VELOX (UID: 7049021834008395777)</span>
+          <span class="text-goldAccent font-bold">STATUS: OFFICIAL LEGENDARY ICON REACHED</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastHUD" class="fixed bottom-6 right-6 z-50 transform translate-y-28 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bevel-btn bg-panelBg border-2 border-ghostRed text-white px-5 py-3.5 shadow-neonRed flex items-center gap-3">
+      <i class="fa-solid fa-skull text-ghostRed text-xl"></i>
+      <div>
+        <span class="font-orbitron font-bold text-xs text-ghostRed block">TACTICAL NOTICE</span>
+        <span id="toastMsgText" class="font-mono text-xs text-slate-200">INTEL UPDATED</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Web Audio Synthesizer for Tactical SFX
+    let audioContext = null;
+    let isAudioActive = true;
+
+    function getAudioContext() {
+      if (!audioContext) {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioClass) audioContext = new AudioClass();
+      }
+      if (audioContext && audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      return audioContext;
+    }
+
+    function toggleAudio() {
+      isAudioActive = !isAudioActive;
+      const icon = document.getElementById('audioIcon');
+      const label = document.getElementById('audioLabel');
+      if (isAudioActive) {
+        icon.className = 'fa-solid fa-volume-high text-cyberCyan';
+        label.innerText = 'AUDIO ON';
+        playTone(700, 0.08);
+        triggerToast("TACTICAL SFX: ACTIVATED");
+      } else {
+        icon.className = 'fa-solid fa-volume-xmark text-slate-500';
+        label.innerText = 'AUDIO MUTED';
+        triggerToast("TACTICAL SFX: MUTED");
+      }
+    }
+
+    function playTone(freq = 600, duration = 0.08, type = 'sine') {
+      if (!isAudioActive) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.18, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
+    function playFanfare() {
+      playTone(440, 0.08, 'sawtooth');
+      setTimeout(() => playTone(554, 0.08, 'sawtooth'), 80);
+      setTimeout(() => playTone(659, 0.12, 'sawtooth'), 160);
+      setTimeout(() => playTone(880, 0.22, 'triangle'), 240);
+    }
+
+    function playVoiceQuote() {
+      playTone(300, 0.15, 'sawtooth');
+      setTimeout(() => playTone(450, 0.12, 'square'), 120);
+      triggerToast("VOICE LOG: Ranked isn't a grind. Ranked is home.");
+    }
+
+    // Modal Control
+    function openScreenshotModal() {
+      playTone(650, 0.08);
+      document.getElementById('screenshotModal').classList.remove('hidden');
+    }
+
+    function closeScreenshotModal() {
+      playTone(350, 0.05);
+      document.getElementById('screenshotModal').classList.add('hidden');
+    }
+
+    // Confetti celebration trigger for 10K XP
+    function triggerConfettiCelebration() {
+      playFanfare();
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#ffb703', '#ff003c', '#00f0ff', '#ffffff']
+        });
+      }
+      triggerToast("10,000 RANK XP CEREMONY TRIGGERED!");
+    }
+
+    // Clipboard Copy Helper
+    function copyData(text, msg) {
+      playTone(750, 0.08);
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        document.execCommand('copy');
+        triggerToast(msg || `Copied ${text}`);
+      } catch (e) {
+        triggerToast(`Selected: ${text}`);
+      }
+      document.body.removeChild(ta);
+    }
+
+    function triggerToast(text) {
+      const toast = document.getElementById('toastHUD');
+      const toastMsg = document.getElementById('toastMsgText');
+      toastMsg.innerText = text;
+      toast.classList.remove('translate-y-28', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-28', 'opacity-0');
+      }, 3000);
+    }
+
+    function handleDispatch(e) {
+      e.preventDefault();
+      playFanfare();
+      const name = document.getElementById('dispName').value;
+      triggerToast(`DISPATCH RECEIVED FROM ${name.toUpperCase()}! VELOX WILL ENGAGE.`);
+      e.target.reset();
+    }
+
+    // 3 Main Games Switcher
+    const gameData = {
+      codm: {
+        tag: 'PRIMARY ESPORTS DISCIPLINE',
+        title: 'CALL OF DUTY: MOBILE',
+        desc: "Velox's primary battleground where he achieved the prestigious 10,000 XP Legendary milestone. Highly agile entry-fragger specializing in slide-canceling, aggressive CQB SMG pushes, and clutch Search & Destroy rounds.",
+        role: 'Entry Slayer',
+        kd: '2.25 (Improved)',
+        rank: '10k+ XP Legendary',
+        borderColor: 'border-ghostRed',
+        icon: 'fa-crosshairs',
+        iconColor: 'text-ghostRed',
+        btnText: 'COPY CODM UID',
+        btnCopy: '7049021834008395777'
+      },
+      bloxfruits: {
+        tag: 'HIGH SEAS APEX PIRATE',
+        title: 'BLOX FRUITS',
+        desc: 'Third Sea raid master and feared pirate hunter. Dominates bounty duels using advanced Ken Haki prediction, fast instinct evasion, sword combo chains, and awakened Devil Fruit damage output.',
+        role: 'Bounty Hunter & Sea Beast Slayer',
+        kd: 'Top Tier Bounty',
+        rank: 'Third Sea Apex',
+        borderColor: 'border-cyberCyan',
+        icon: 'fa-skull-crossbones',
+        iconColor: 'text-cyberCyan',
+        btnText: 'COPY DISCORD FOR CREW',
+        btnCopy: 'veloxcodm'
+      },
+      minecraft: {
+        tag: 'TACTICAL COMBAT & SANDBOX',
+        title: 'MINECRAFT',
+        desc: 'Competitive Bedwars rusher and PvP specialist. Features lightning fast-bridging, aggressive W-tap strafe control, end-crystal PvP agility, and ruthless map pressure.',
+        role: 'Bedwars Rusher & Crystal PvP',
+        kd: 'High W/L Ratio',
+        rank: 'Veteran Combatant',
+        borderColor: 'border-apexPurple',
+        icon: 'fa-cube',
+        iconColor: 'text-apexPurple',
+        btnText: 'COPY DISCORD FOR SQUAD',
+        btnCopy: 'veloxcodm'
+      }
+    };
+
+    function switchGame(key) {
+      playTone(550, 0.08);
+      const data = gameData[key];
+      if (!data) return;
+
+      ['codm', 'bloxfruits', 'minecraft'].forEach(k => {
+        const btn = document.getElementById(`tab-${k}`);
+        if (k === key) {
+          btn.className = 'bevel-btn px-6 py-2.5 bg-ghostRed text-white font-orbitron text-xs font-bold tracking-wider transition shadow-neonRed';
+        } else {
+          btn.className = 'bevel-btn px-6 py-2.5 bg-panelBg border border-white/20 text-slate-300 hover:text-white font-orbitron text-xs font-bold tracking-wider transition';
+        }
+      });
+
+      const container = document.getElementById('gameContentCard');
+      container.className = `bg-panelBg/90 border-2 ${data.borderColor} rounded-2xl p-6 sm:p-10 transition-all duration-300 shadow-2xl relative overflow-hidden`;
+
+      document.getElementById('gameInner').innerHTML = `
+        <div class="lg:col-span-7 space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/10 border border-white/20 text-white font-mono text-xs font-bold">
+            ${data.tag}
+          </div>
+          <h3 class="text-3xl font-orbitron font-black text-white">
+            ${data.title}
+          </h3>
+          <p class="text-slate-300 font-chakra text-lg leading-relaxed">
+            ${data.desc}
+          </p>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs pt-2">
+            <div class="bg-black/60 p-3 rounded-lg border border-white/10">
+              <span class="text-slate-400 block">ROLE</span>
+              <span class="text-white font-bold text-sm">${data.role}</span>
+            </div>
+            <div class="bg-black/60 p-3 rounded-lg border border-white/10">
+              <span class="text-slate-400 block">COMBAT SCORE</span>
+              <span class="text-signalGreen font-bold text-sm">${data.kd}</span>
+            </div>
+            <div class="bg-black/60 p-3 rounded-lg border border-white/10">
+              <span class="text-slate-400 block">TIER</span>
+              <span class="text-goldAccent font-bold text-sm">${data.rank}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="w-full bg-matrixDark border ${data.borderColor} rounded-xl p-6 text-center space-y-4">
+            <div class="w-20 h-20 rounded-2xl bg-white/5 border-2 ${data.borderColor} mx-auto flex items-center justify-center ${data.iconColor} text-3xl shadow-lg">
+              <i class="fa-solid ${data.icon}"></i>
+            </div>
+            <div>
+              <h4 class="font-orbitron font-bold text-white text-base">${data.title} DECK</h4>
+              <p class="font-mono text-xs text-slate-400 mt-1">Operator: Velox // India</p>
+            </div>
+            <button onclick="copyData('${data.btnCopy}', '${data.btnText} Copied!')" class="w-full py-2.5 bg-ghostRed hover:bg-red-600 text-white font-orbitron text-xs font-bold rounded transition">
+              <i class="fa-regular fa-copy mr-1"></i> ${data.btnText}
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Reaction Drill (Aim Lab)
+    let drillActive = false;
+    let drillScore = 0;
+    let drillSeconds = 20;
+    let drillInterval = null;
+    let targetTimer = null;
+
+    const drillBox = document.getElementById('drillBox');
+    const drillTarget = document.getElementById('drillTarget');
+    const drillScoreTxt = document.getElementById('drillScore');
+    const drillTimerTxt = document.getElementById('drillTimer');
+    const drillSplash = document.getElementById('drillSplash');
+
+    function startReactionDrill() {
+      if (drillActive) return;
+      drillActive = true;
+      drillScore = 0;
+      drillSeconds = 20;
+      drillScoreTxt.innerText = '0';
+      drillTimerTxt.innerText = '20s';
+      drillSplash.classList.add('hidden');
+      drillTarget.classList.remove('hidden');
+
+      playTone(600, 0.1);
+      spawnNextBullseye();
+
+      drillInterval = setInterval(() => {
+        drillSeconds--;
+        drillTimerTxt.innerText = drillSeconds + 's';
+        if (drillSeconds <= 0) {
+          endReactionDrill();
+        }
+      }, 1000);
+    }
+
+    function spawnNextBullseye() {
+      if (!drillActive) return;
+      const maxW = drillBox.clientWidth - 65;
+      const maxH = drillBox.clientHeight - 65;
+
+      const posX = Math.max(10, Math.floor(Math.random() * maxW));
+      const posY = Math.max(10, Math.floor(Math.random() * maxH));
+
+      drillTarget.style.left = posX + 'px';
+      drillTarget.style.top = posY + 'px';
+
+      clearTimeout(targetTimer);
+      targetTimer = setTimeout(() => {
+        if (drillActive) spawnNextBullseye();
+      }, 900);
+    }
+
+    drillTarget.addEventListener('click', () => {
+      if (!drillActive) return;
+      drillScore++;
+      drillScoreTxt.innerText = drillScore;
+      playTone(980, 0.05, 'triangle');
+      spawnNextBullseye();
+    });
+
+    function endReactionDrill() {
+      drillActive = false;
+      clearInterval(drillInterval);
+      clearTimeout(targetTimer);
+      drillTarget.classList.add('hidden');
+      drillSplash.classList.remove('hidden');
+
+      playFanfare();
+      let rating = "RECRUIT";
+      if (drillScore >= 24) rating = "APEX GHOST TIER";
+      else if (drillScore >= 16) rating = "VETERAN MARKSMAN";
+      else if (drillScore >= 8) rating = "COMBAT OPERATOR";
+
+      drillSplash.innerHTML = `
+        <i class="fa-solid fa-trophy text-4xl text-goldAccent"></i>
+        <h4 class="font-orbitron font-bold text-white text-lg">DRILL COMPLETE: ${drillScore} HITS</h4>
+        <p class="font-mono text-xs text-cyberCyan">TACTICAL RATING: <strong class="text-white">${rating}</strong></p>
+        <button onclick="startReactionDrill()" class="mt-2 bevel-btn px-4 py-2 bg-signalGreen text-black font-orbitron font-bold text-xs">TRY AGAIN</button>
+      `;
+      triggerToast(`DRILL SCORE: ${drillScore} TARGETS HIT!`);
+    }
+
+    // 3D Card Tilt Effect on Mouse Move
+    const heroCard = document.getElementById('heroCard');
+    if (heroCard) {
+      heroCard.addEventListener('mousemove', (e) => {
+        const rect = heroCard.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -10;
+        const rotateY = ((x - centerX) / centerX) * 10;
+        heroCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+      heroCard.addEventListener('mouseleave', () => {
+        heroCard.style.transform = `rotateX(0deg) rotateY(0deg)`;
+      });
+    }
+
+    // Ambient Starfield / Cyber Grid on Canvas
+    const canvas = document.getElementById('ambientCanvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        stars = [];
+        for (let i = 0; i < 70; i++) {
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2 + 0.5,
+            speed: Math.random() * 0.4 + 0.1,
+            alpha: Math.random() * 0.8 + 0.2
+          });
+        }
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      function drawStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(s => {
+          s.y += s.speed;
+          if (s.y > canvas.height) s.y = 0;
+          ctx.fillStyle = `rgba(255, 0, 60, ${s.alpha})`;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        requestAnimationFrame(drawStars);
+      }
+      drawStars();
+    }
+
+    // Live Indian Standard Time (Punjab)
+    function updateClock() {
+      try {
+        const options = {
+          timeZone: 'Asia/Kolkata',
+          hour12: false,
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        };
+        const formatter = new Intl.DateTimeFormat([], options);
+        document.getElementById('punjabClock').innerText = formatter.format(new Date()) + " IST";
+      } catch (e) {
+        document.getElementById('punjabClock').innerText = new Date().toLocaleTimeString() + " IST";
+      }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Stats counter animation on load
+    window.addEventListener('DOMContentLoaded', () => {
+      const counters = document.querySelectorAll('.stat-counter');
+      counters.forEach(c => {
+        const target = parseFloat(c.getAttribute('data-target'));
+        const isDecimal = target % 1 !== 0;
+        let count = 0;
+        const step = target / 40;
+
+        const update = () => {
+          count += step;
+          if (count < target) {
+            c.innerText = isDecimal ? count.toFixed(2) : Math.ceil(count);
+            setTimeout(update, 25);
+          } else {
+            c.innerText = isDecimal ? target.toFixed(2) : target.toLocaleString();
+          }
+        };
+        update();
+      });
+
+      const yr = document.getElementById('yearEl');
+      if (yr) yr.innerText = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>
